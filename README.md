@@ -610,3 +610,496 @@ HAVING COUNT(*) > 1;
 ---
 
 ---
+
+Q-26. Write an SQL query to show only odd rows from a table.
+
+```sql
+SELECT * FROM Worker WHERE MOD (WORKER_ID, 2) <> 0;
+```
+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE         | DEPARTMENT |
+| --------- | ---------- | --------- | ------ | -------------------- | ---------- |
+| 1         | Monika     | Arora     | 100000 | 2014-02-20T09:00:00Z | HR         |
+| 3         | Vishal     | Singhal   | 300000 | 2014-02-20T09:00:00Z | HR         |
+| 5         | Vivek      | Bhati     | 500000 | 2014-06-11T09:00:00Z | Admin      |
+| 7         | Satish     | Kumar     | 75000  | 2014-01-20T09:00:00Z | Account    |
+
+---
+
+---
+
+Q-27. Write an SQL query to show only even rows from a table.
+
+```sql
+SELECT * FROM Worker WHERE MOD (WORKER_ID, 2) = 0;
+```
+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE         | DEPARTMENT |
+| --------- | ---------- | --------- | ------ | -------------------- | ---------- |
+| 2         | Niharika   | Verma     | 80000  | 2014-06-11T09:00:00Z | Admin      |
+| 4         | Amitabh    | Singh     | 500000 | 2014-02-20T09:00:00Z | Admin      |
+| 6         | Vipul      | Diwan     | 200000 | 2014-06-11T09:00:00Z | Account    |
+| 8         | Geetika    | Chauhan   | 90000  | 2014-04-11T09:00:00Z | Admin      |
+
+---
+
+---
+
+Q-28. Write an SQL query to clone a new table from another table.
+
+The general query to clone a table with data is:
+
+```sql
+SELECT * INTO WorkerClone FROM Worker;
+```
+
+The general way to clone a table without information is:
+
+```sql
+SELECT * INTO WorkerClone FROM Worker WHERE 1 = 0;
+```
+
+An alternate way to clone a table (for MySQL) without is:
+
+```sql
+CREATE TABLE WorkerClone LIKE Worker;
+```
+
+---
+
+Q-29. Write an SQL query to fetch intersecting records of two tables.
+
+```sql
+(SELECT * FROM Worker)
+INTERSECT
+(SELECT * FROM WorkerClone);
+```
+
+> MySQL Doesn't Support `INTERSECT` syntax.
+
+---
+
+---
+
+Q-30. Write an SQL query to show records from one table that another table does not have.
+
+```sql
+SELECT * FROM Worker
+MINUS
+SELECT * FROM Title;
+```
+
+> MySQL Doesn't Support `MINUS` syntax.
+
+---
+
+---
+
+Q-31. Write an SQL query to show the current date and time.
+
+Following MySQL query returns the current date:
+
+```sql
+SELECT CURDATE();
+```
+
+| CURDATE()  |
+| ---------- |
+| 2020-09-21 |
+
+Following MySQL query returns the current date and time:
+
+```sql
+SELECT NOW();
+```
+
+| NOW()                |
+| -------------------- |
+| 2020-09-21T14:51:30Z |
+
+Following SQL Server query returns the current date and time:
+
+```sql
+SELECT getdate();
+```
+
+> MySQL doesn't support
+
+Following Oracle query returns the current date and time:
+
+```sql
+SELECT SYSDATE FROM DUAL;
+```
+
+> MySQL doesn't support
+
+---
+
+---
+
+Q-32. Write an SQL query to show the top n (say 10) records of a table.
+
+Following MySQL query will return the top n records using the LIMIT method:
+
+```sql
+SELECT * FROM Worker ORDER BY Salary DESC LIMIT 10;
+```
+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE         | DEPARTMENT |
+| --------- | ---------- | --------- | ------ | -------------------- | ---------- |
+| 4         | Amitabh    | Singh     | 500000 | 2014-02-20T09:00:00Z | Admin      |
+| 5         | Vivek      | Bhati     | 500000 | 2014-06-11T09:00:00Z | Admin      |
+| 3         | Vishal     | Singhal   | 300000 | 2014-02-20T09:00:00Z | HR         |
+| 6         | Vipul      | Diwan     | 200000 | 2014-06-11T09:00:00Z | Account    |
+| 1         | Monika     | Arora     | 100000 | 2014-02-20T09:00:00Z | HR         |
+| 8         | Geetika    | Chauhan   | 90000  | 2014-04-11T09:00:00Z | Admin      |
+| 2         | Niharika   | Verma     | 80000  | 2014-06-11T09:00:00Z | Admin      |
+| 7         | Satish     | Kumar     | 75000  | 2014-01-20T09:00:00Z | Account    |
+
+---
+
+Following SQL Server query will return the top n records using the TOP command:
+
+```sql
+SELECT TOP 10 * FROM Worker ORDER BY Salary DESC;
+```
+
+> MySQL doesn't support
+
+Following Oracle query will return the top n records with the help of ROWNUM:
+
+```sql
+SELECT * FROM (SELECT * FROM Worker ORDER BY Salary DESC)
+WHERE ROWNUM <= 10;
+```
+
+> MySQL doesn't supports.
+
+---
+
+---
+
+Q-33. Write an SQL query to determine the nth (say n=5) highest salary from a table.
+
+The following MySQL query returns the nth highest salary: (n-1,1)
+
+```sql
+SELECT Salary FROM Worker ORDER BY Salary DESC LIMIT 4,1;
+```
+
+| Salary |
+| ------ |
+| 100000 |
+
+---
+
+The following SQL Server query returns the nth highest salary:
+
+```sql
+SELECT TOP 1 Salary
+FROM (
+ SELECT DISTINCT TOP n Salary
+ FROM Worker
+ ORDER BY Salary DESC
+ )
+ORDER BY Salary ASC;
+```
+
+> Doesn't Support
+
+---
+
+---
+
+Q-34. Write an SQL query to determine the 5th highest salary without using TOP or limit method.
+
+The following query is using the correlated subquery to return the 5th highest salary:
+
+```sql
+SELECT Salary
+FROM Worker W1
+WHERE 4 = (
+ SELECT COUNT( DISTINCT ( W2.Salary ) )
+ FROM Worker W2
+ WHERE W2.Salary >= W1.Salary
+ );
+```
+
+| Salary |
+| ------ |
+| 100000 |
+
+---
+
+Use the following generic method to find nth highest salary without using TOP or limit. (n-1) = (...)
+
+```sql
+SELECT Salary
+FROM Worker W1
+WHERE 5-1 = (
+ SELECT COUNT( DISTINCT ( W2.Salary ) )
+ FROM Worker W2
+ WHERE W2.Salary >= W1.Salary
+ );
+```
+
+| Salary |
+| ------ |
+| 100000 |
+
+---
+
+---
+
+Q-35. Write an SQL query to fetch the list of employees with the same salary.
+
+```sql
+Select distinct W.WORKER_ID, W.FIRST_NAME, W.Salary
+from Worker W, Worker W1
+where W.Salary = W1.Salary
+and W.WORKER_ID != W1.WORKER_ID;
+```
+
+| WORKER_ID | FIRST_NAME | Salary |
+| --------- | ---------- | ------ |
+| 4         | Amitabh    | 500000 |
+| 5         | Vivek      | 500000 |
+
+---
+
+---
+
+Q-36. Write an SQL query to show the second highest salary from a table.
+
+```sql
+Select max(Salary) from Worker
+where Salary not in (Select max(Salary) from Worker);
+```
+
+| max(Salary) |
+| ----------- |
+| 300000      |
+
+---
+
+---
+
+Q-37. Write an SQL query to show one row twice in results from a table.
+
+```sql
+select FIRST_NAME, DEPARTMENT from worker W where W.DEPARTMENT='HR'
+union all
+select FIRST_NAME, DEPARTMENT from Worker W1 where W1.DEPARTMENT='HR';
+```
+
+| FIRST_NAME | DEPARTMENT |
+| ---------- | ---------- |
+| Monika     | HR         |
+| Vishal     | HR         |
+| Monika     | HR         |
+| Vishal     | HR         |
+
+---
+
+---
+
+Q-38. Write an SQL query to fetch intersecting records of two tables.
+
+---
+
+Q-39. Write an SQL query to fetch the first 50% records from a table.
+
+```sql
+SELECT *
+FROM WORKER
+WHERE WORKER_ID <= (SELECT count(WORKER_ID)/2 from Worker);
+```
+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE         | DEPARTMENT |
+| --------- | ---------- | --------- | ------ | -------------------- | ---------- |
+| 1         | Monika     | Arora     | 100000 | 2014-02-20T09:00:00Z | HR         |
+| 2         | Niharika   | Verma     | 80000  | 2014-06-11T09:00:00Z | Admin      |
+| 3         | Vishal     | Singhal   | 300000 | 2014-02-20T09:00:00Z | HR         |
+| 4         | Amitabh    | Singh     | 500000 | 2014-02-20T09:00:00Z | Admin      |
+
+---
+
+---
+
+Q-40. Write an SQL query to fetch the departments that have less than five people in it.
+
+```sql
+SELECT DEPARTMENT, COUNT(WORKER_ID) as 'Number of Workers' FROM Worker GROUP BY DEPARTMENT HAVING COUNT(WORKER_ID) < 5;
+```
+
+| DEPARTMENT | Number of Workers |
+| ---------- | ----------------- |
+| Account    | 2                 |
+| Admin      | 4                 |
+| HR         | 2                 |
+
+---
+
+---
+
+Q-41. Write an SQL query to show all departments along with the number of people in there.
+
+```sql
+SELECT DEPARTMENT, COUNT(DEPARTMENT) as 'Number of Workers' FROM Worker GROUP BY DEPARTMENT;
+```
+
+| DEPARTMENT | Number of Workers |
+| ---------- | ----------------- |
+| Account    | 2                 |
+| Admin      | 4                 |
+| HR         | 2                 |
+
+---
+
+---
+
+Q-42. Write an SQL query to show the last record from a table.
+
+```sql
+Select * from Worker where WORKER_ID = (SELECT max(WORKER_ID) from Worker);
+```
+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE         | DEPARTMENT |
+| --------- | ---------- | --------- | ------ | -------------------- | ---------- |
+| 8         | Geetika    | Chauhan   | 90000  | 2014-04-11T09:00:00Z | Admin      |
+
+---
+
+---
+
+Q-43. Write an SQL query to fetch the first row of a table.
+
+```sql
+Select * from Worker where WORKER_ID = (SELECT min(WORKER_ID) from Worker);
+```
+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE         | DEPARTMENT |
+| --------- | ---------- | --------- | ------ | -------------------- | ---------- |
+| 1         | Monika     | Arora     | 100000 | 2014-02-20T09:00:00Z | HR         |
+
+---
+
+---
+
+Q-44. Write an SQL query to fetch the last five records from a table.
+
+```sql
+SELECT * FROM Worker WHERE WORKER_ID <=5
+UNION
+SELECT * FROM (SELECT * FROM Worker W order by W.WORKER_ID DESC) AS W1 WHERE W1.WORKER_ID <=5;
+```
+
+| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | JOINING_DATE         | DEPARTMENT |
+| --------- | ---------- | --------- | ------ | -------------------- | ---------- |
+| 1         | Monika     | Arora     | 100000 | 2014-02-20T09:00:00Z | HR         |
+| 2         | Niharika   | Verma     | 80000  | 2014-06-11T09:00:00Z | Admin      |
+| 3         | Vishal     | Singhal   | 300000 | 2014-02-20T09:00:00Z | HR         |
+| 4         | Amitabh    | Singh     | 500000 | 2014-02-20T09:00:00Z | Admin      |
+| 5         | Vivek      | Bhati     | 500000 | 2014-06-11T09:00:00Z | Admin      |
+
+---
+
+---
+
+Q-45. Write an SQL query to print the name of employees having the highest salary in each department.
+
+```sql
+SELECT t.DEPARTMENT,t.FIRST_NAME,t.Salary from(SELECT max(Salary) as TotalSalary,DEPARTMENT from Worker group by DEPARTMENT) as TempNew
+Inner Join Worker t on TempNew.DEPARTMENT=t.DEPARTMENT
+ and TempNew.TotalSalary=t.Salary;
+```
+
+| DEPARTMENT | FIRST_NAME | Salary |
+| ---------- | ---------- | ------ |
+| HR         | Vishal     | 300000 |
+| Admin      | Amitabh    | 500000 |
+| Admin      | Vivek      | 500000 |
+| Account    | Vipul      | 200000 |
+
+---
+
+---
+
+Q-46. Write an SQL query to fetch three max salaries from a table.
+
+```sql
+SELECT distinct Salary from worker a WHERE 3 >= (SELECT count(distinct Salary) from worker b WHERE a.Salary <= b.Salary) order by a.Salary desc;
+```
+
+| Salary |
+| ------ |
+| 500000 |
+| 300000 |
+| 200000 |
+
+---
+
+---
+
+Q-47. Write an SQL query to fetch three min salaries from a table.
+
+```sql
+SELECT distinct Salary from worker a WHERE 3 >= (SELECT count(distinct Salary) from worker b WHERE a.Salary >= b.Salary) order by a.Salary desc;
+```
+
+| Salary |
+| ------ |
+| 90000  |
+| 80000  |
+| 75000  |
+
+---
+
+---
+
+Q-48. Write an SQL query to fetch nth max salaries from a table. `WHERE n >= (...)`
+
+```sql
+SELECT distinct Salary from worker a WHERE 3 >= (SELECT count(distinct Salary) from worker b WHERE a.Salary <= b.Salary) order by a.Salary desc;
+```
+
+| Salary |
+| ------ |
+| 500000 |
+| 300000 |
+| 200000 |
+
+---
+
+---
+
+Q-49. Write an SQL query to fetch departments along with the total salaries paid for each of them.
+
+```sql
+ SELECT DEPARTMENT, sum(Salary) from worker group by DEPARTMENT;
+```
+
+| DEPARTMENT | sum(Salary) |
+| ---------- | ----------- |
+| Account    | 275000      |
+| Admin      | 1170000     |
+| HR         | 400000      |
+
+---
+
+---
+
+Q-50. Write an SQL query to fetch the names of workers who earn the highest salary.
+
+```sql
+SELECT FIRST_NAME, SALARY from Worker WHERE SALARY=(SELECT max(SALARY) from Worker);
+```
+
+| FIRST_NAME | SALARY |
+| ---------- | ------ |
+| Amitabh    | 500000 |
+| Vivek      | 500000 |
+
+---
+
+---
