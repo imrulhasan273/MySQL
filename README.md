@@ -143,3 +143,201 @@ select * from Title;
 | 3             | Lead          | 2016-06-11T00:00:00Z |
 
 ---
+
+---
+
+Q-1. Write an SQL query to fetch “FIRST_NAME” from Worker table using the alias name as <WORKER_NAME>.
+
+```sql
+Select FIRST_NAME AS WORKER_NAME from Worker;
+```
+
+| WORKER_NAME |
+| ----------- |
+| Monika      |
+| Niharika    |
+| Vishal      |
+| Amitabh     |
+| Vivek       |
+| Vipul       |
+| Satish      |
+| Geetika     |
+
+---
+
+---
+
+Q-2. Write an SQL query to fetch “FIRST_NAME” from Worker table in upper case.
+
+```sql
+Select upper(FIRST_NAME) from Worker;
+```
+
+| upper(FIRST_NAME) |
+| ----------------- |
+| MONIKA            |
+| NIHARIKA          |
+| VISHAL            |
+| AMITABH           |
+| VIVEK             |
+| VIPUL             |
+| SATISH            |
+| GEETIKA           |
+
+---
+
+---
+
+Q-3. Write an SQL query to fetch unique values of DEPARTMENT from Worker table.
+
+```sql
+Select distinct DEPARTMENT from Worker;
+```
+
+| DEPARTMENT |
+| ---------- |
+| HR         |
+| Admin      |
+| Account    |
+
+---
+
+---
+
+Q-4. Write an SQL query to print the first three characters of FIRST_NAME from Worker table.
+
+```sql
+Select substring(FIRST_NAME,1,3) from Worker;
+```
+
+| substring(FIRST_NAME,1,3) |
+| ------------------------- |
+| Mon                       |
+| Nih                       |
+| Vis                       |
+| Ami                       |
+| Viv                       |
+| Vip                       |
+| Sat                       |
+| Gee                       |
+
+---
+
+---
+
+Q-5. Write an SQL query to find the position of the alphabet (‘a’) in the first name column ‘Amitabh’ from Worker table.
+
+```sql
+Select INSTR(FIRST_NAME, BINARY'a') from Worker where FIRST_NAME = 'Amitabh';
+```
+
+| INSTR(FIRST_NAME, BINARY'a') |
+| ---------------------------- |
+| 5                            |
+
+- The INSTR method is in case-sensitive by default.
+- Using Binary operator will make INSTR work as the case-sensitive function.
+
+---
+
+---
+
+Q-6. Write an SQL query to print the **FIRST_NAME** from Worker table after removing white spaces from the right side.
+
+```sql
+Select RTRIM(FIRST_NAME) from Worker;
+```
+
+| RTRIM(FIRST_NAME) |
+| ----------------- |
+| Monika            |
+| Niharika          |
+| Vishal            |
+| Amitabh           |
+| Vivek             |
+| Vipul             |
+| Satish            |
+| Geetika           |
+
+---
+
+---
+
+Q-7. Write an SQL query to print the DEPARTMENT from Worker table after removing white spaces from the left side.
+
+```sql
+Select LTRIM(DEPARTMENT) from Worker;
+```
+
+| LTRIM(DEPARTMENT) |
+| ----------------- |
+| HR                |
+| Admin             |
+| HR                |
+| Admin             |
+| Admin             |
+| Account           |
+| Account           |
+| Admin             |
+
+---
+
+---
+
+Q-8. Write an SQL query that fetches the unique values of DEPARTMENT from Worker table and prints its length.
+
+```sql
+Select distinct length(DEPARTMENT) from Worker;
+```
+
+| length(DEPARTMENT) |
+| ------------------ |
+| 2                  |
+| 5                  |
+| 7                  |
+
+---
+
+---
+
+Q-9. Write an SQL query to print the FIRST_NAME from Worker table after replacing ‘a’ with ‘A’.
+
+```sql
+Select REPLACE(FIRST_NAME,'a','A') from Worker;
+```
+
+| REPLACE(FIRST_NAME,'a','A') |
+| --------------------------- |
+| MonikA                      |
+| NihArikA                    |
+| VishAl                      |
+| AmitAbh                     |
+| Vivek                       |
+| Vipul                       |
+| SAtish                      |
+| GeetikA                     |
+
+---
+
+---
+
+Q-10. Write an SQL query to print the FIRST_NAME and LAST_NAME from Worker table into a single column COMPLETE_NAME. A space char should separate them.
+
+```sql
+Select CONCAT(FIRST_NAME, ' ', LAST_NAME) AS 'COMPLETE_NAME' from Worker;
+```
+
+| COMPLETE_NAME   |
+| --------------- |
+| Monika Arora    |
+| Niharika Verma  |
+| Vishal Singhal  |
+| Amitabh Singh   |
+| Vivek Bhati     |
+| Vipul Diwan     |
+| Satish Kumar    |
+| Geetika Chauhan |
+
+---
+
+---
