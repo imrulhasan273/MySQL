@@ -1103,3 +1103,15 @@ SELECT FIRST_NAME, SALARY from Worker WHERE SALARY=(SELECT max(SALARY) from Work
 ---
 
 ---
+
+---
+
+---
+
+---
+
+---
+
+# **TECHNICAL INTERVIEW QUESTION PREPARATION**
+
+---
