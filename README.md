@@ -1115,3 +1115,128 @@ SELECT FIRST_NAME, SALARY from Worker WHERE SALARY=(SELECT max(SALARY) from Work
 # **TECHNICAL INTERVIEW QUESTION PREPARATION**
 
 ---
+
+Q-51. What are Keys in DBMS?
+
+> KEYS in DBMS is an attribute or set of attributes which helps you to identify a row(tuple) in a relation(table). They allow you to find the relation between two tables. Keys help you uniquely identify a row in a table by a combination of one or more columns in that table. Key is also helpful for finding unique record or row from the table. Database key is also helpful for finding unique record or row from the table.
+
+---
+
+Q-51. What is the Super key?
+
+> A superkey is a group of single or multiple keys which identifies rows in a table. A Super key may have additional attributes that are not needed for unique identification.
+
+| EmpSSN     | EmpNum | Empname |
+| ---------- | ------ | ------- |
+| 9812345098 | AB05   | Shown   |
+| 9876512345 | AB06   | Roslyn  |
+| 199937890  | AB07   | James   |
+
+> In the above-given example, `EmpSSN` and `EmpNum` name are superkeys.
+
+---
+
+Q-52. What is a Primary Key?
+
+> PRIMARY KEY is a column or group of columns in a table that uniquely identify every row in that table. The Primary Key can't be a duplicate meaning the same value can't appear more than once in the table. A table cannot have more than one primary key.
+
+- Rules for defining Primary key:
+  - Two rows can't have the same primary key value
+  - It must for every row to have a primary key value.
+  - The primary key field cannot be null.
+  - The value in a primary key column can never be modified or updated if any foreign key refers to that primary key.
+
+---
+
+Q-53. What is the Alternate key?
+
+> ALTERNATE KEYS is a column or group of columns in a table that uniquely identify every row in that table. A table can have multiple choices for a primary key but only one can be set as the primary key. All the keys which are not primary key are called an Alternate Key.
+
+> In this table, StudID, Roll No, Email are qualified to become a primary key. But since StudID is the primary key, Roll No, Email becomes the alternative key.
+
+---
+
+Q-54. What is a Candidate Key?
+
+> CANDIDATE KEY is a set of attributes that uniquely identify tuples in a table. Candidate Key is a super key with no repeated attributes. The Primary key should be selected from the candidate keys. Every table must have at least a single candidate key. A table can have multiple candidate keys but only a single primary key.
+
+- Properties of Candidate key:
+  - It must contain unique values
+  - Candidate key may have multiple attributes
+  - Must not contain null values
+  - It should contain minimum fields to ensure uniqueness
+  - Uniquely identify each record in a table
+
+1[](mark/1.png)
+
+---
+
+Q-55. What is the Foreign key?
+
+> FOREIGN KEY is a column that creates a relationship between two tables. The purpose of Foreign keys is to maintain data integrity and allow navigation between two different instances of an entity. It acts as a cross-reference between two tables as it references the primary key of another table.
+
+---
+
+Q-56. What is the Compound key?
+
+> COMPOUND KEY has two or more attributes that allow you to uniquely recognize a specific record. It is possible that each column may not be unique by itself within the database. However, when combined with the other column or columns the combination of composite keys become unique. The purpose of the compound key in database is to uniquely identify each record in the table.
+
+| OrderNo | PorductID | Product Name  | Quantity |
+| ------- | --------- | ------------- | -------- |
+| B005    | JAP102459 | Mouse         | 5        |
+| B005    | DKT321573 | USB           | 10       |
+| B005    | OMG446789 | LCD Monitor   | 20       |
+| B004    | DKT321573 | USB           | 15       |
+| B002    | OMG446789 | Laser Printer | 3        |
+
+> In this example, OrderNo and ProductID can't be a primary key as it does not uniquely identify a record. However, a compound key of Order ID and Product ID could be used as it uniquely identified each record.
+
+---
+
+Q-57. What is the Composite key?
+
+> COMPOSITE KEY is a combination of two or more columns that uniquely identify rows in a table. The combination of columns guarantees uniqueness, though individually uniqueness is not guaranteed. Hence, they are combined to uniquely identify records in a table.
+
+> The difference between compound and the composite key is that any part of the compound key can be a foreign key, but the composite key may or maybe not a part of the foreign key.
+
+---
+
+Q-58. **CREATE**
+
+Creating a new Database
+
+```sql
+CREATE DATABASE databasename;
+```
+
+---
+
+Q-59. **DROP**
+
+> The DROP DATABASE statement is used to drop an existing SQL database.
+
+```sql
+DROP DATABASE databasename;
+```
+
+---
+
+Q-60. **TRUNCATE**
+
+```sql
+TRUNCATE TABLE table_name;
+```
+
+> The SQL **TRUNCATE TABLE** command is used to delete complete data from an existing table.
+
+---
+
+## Reference
+
+[W3School](https://www.w3schools.com/sql/default.asp)
+
+[TutorialsPoints](https://www.tutorialspoint.com/sql/index.htm)
+
+---
+
+---
